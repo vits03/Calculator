@@ -149,6 +149,7 @@ e_btn.addEventListener('click',()=>{
     display.innerText=equation;
     num_written=true;
 
+    
 })
 clear_btn.addEventListener('click',()=> clear());
 let sign_btn=Array.from(ops);
