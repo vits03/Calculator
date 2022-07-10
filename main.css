@@ -1,14 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 body{
     height: 100vh;
+    font-family: 'Roboto', sans-serif;
     display:flex;
     justify-content: center;
     align-items: center;
 }
 
 .calculator-wrapper{
+   
     width:95%;
     height: 70%;
-    max-width: 430px;}
+    max-width: 420px;}
 .calculator-container {
    display: flex;
     justify-content: center;
@@ -22,31 +26,45 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
     width: 90%;
     height: 100%;
 }
 
-
+button.ops-btn,button.accent-clr{
+     background-color: #FD421C;
+}
 .btn {
     height: 80%;
     border-radius: 10px;
     width: 22%;
-   
+    font-family: 'roboto';
+    font-size: 1.1em;
+    font-weight: 900;
+    border: none;
+    background-color: #a09c9c;
 }
 
 #display {
     color: white;
     font-size: 2em;
     height: 3rem;
-    border: 2px solid black;
+    
+    
 }
 
-#main-display{
+.display-wrapper{
+   
+    border: 2px solid rgb(119, 119, 119);
+    border-radius: 10px;
+}
+
+#main-display{ 
+    display: flex;
+    align-items: center;
     font-size: 2em;
     color: wheat;
-    height:4rem ;
-    border: 2px solid black;
+    height:4.5rem ;
+    border: 1px solid rgb(119, 119, 119);
 }
 
 .row {
