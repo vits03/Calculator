@@ -45,11 +45,11 @@ button.ops-btn,button.accent-clr{
 }
 
 #display {
+    display: block;
     color: white;
     font-size: 2em;
-    height: 4rem;
-    
-    
+    height: 3.5rem;
+  
 }
 
 .display-wrapper{
@@ -59,7 +59,8 @@ button.ops-btn,button.accent-clr{
 }
 
 #main-display{ 
-    display: flex;
+    display: block;
+    
     align-items: center;
     font-size: 2em;
     color: wheat;
@@ -81,3 +82,4 @@ button.ops-btn,button.accent-clr{
     height: 60%;
     width: 100%;
 }
+

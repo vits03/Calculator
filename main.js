@@ -49,8 +49,8 @@ return ans;
 }
 
 
-
-
+let sign='';
+overflow=false;
 let decimal=true;
 equal_pressed=false;
 const btns=document.getElementsByClassName("num-btn");
@@ -61,14 +61,16 @@ console.log(display.innerText);
 let equation='';
 btn.forEach(element => {
     element.addEventListener('click',()=>{ 
-           if  (equal_pressed){
+         
+            if  (equal_pressed){
                clear();
                equal_pressed=false;
            }
             if (element.innerText==="." ){
                 if (decimal){
                     equation+=element.innerText;  console.log(equation,display.innerText);
-                    display.innerText=equation;
+                    console.log(equation.split(sign)[1])
+                    main_display.innerText=equation.split(sign)[0];
                     num_written=true;
                     decimal=false
                     element.disabled='true';
@@ -78,22 +80,31 @@ btn.forEach(element => {
                 }
             }
             else {
-           equation+=element.innerText;  console.log(equation,display.innerText,element,'number event entered?');
-           display.innerText=equation;
-           num_written=true;}
+           equation+=element.innerText; 
+           if (sign) {
+            console.log(equation,sign,'the first num is ',first_num)
+           main_display.innerText=reverse_str(equation.slice(first_num.toString().length+1,).toString());
+           console.log('the split equation is',equation.split(sign)[1]);
+           }
+           else  {
+           
+           main_display.innerText=reverse_str(equation);}
+           num_written=true;console.table(equation,display.innerText,element,'sign',sign,'number event entered?');}
           // console.log(equation,display.innerText)
     })
   
     
 });
 decimal_btn=document.getElementById('decimal');
+rev_dis='';
+let num_written=false;
 let first_num='';
 let second_num="";
 const clear_btn=document.getElementById("clear");
 const ops=document.getElementsByClassName("ops-btn");
 const equal_btn=document.getElementById('equal');
 const backspace_btn=document.getElementById("backspace");
-
+reversed_display=document.getElementById('reversed_display')
 backspace_btn.addEventListener('click',()=>{
   deleteNum()
 })
@@ -111,7 +122,12 @@ document.addEventListener('keydown',(e) => {
     if ((e.keyCode >=47 && e.keyCode<58) ||(e.keyCode >=95 && e.keyCode<106)){
         
         equation+=e.key;
-        display.innerText=equation; num_written=true;
+        main_display.innerText=equation;
+        rev_dis=equation;
+       
+        
+        
+         num_written=true;
     }
     if (e.keyCode===8){
        deleteNum()
@@ -151,21 +167,26 @@ e_btn.addEventListener('click',()=>{
 
     
 })
+let autom=false;
 clear_btn.addEventListener('click',()=> clear());
 let sign_btn=Array.from(ops);
 let nums=0;
 sign_btn.forEach(btn => {
     btn.addEventListener('click',()=>{
-         decimal=true;
+       
+        main_display.innerText=''; 
+        decimal=true;
          decimal_btn.disabled=false;
-        if (num_written){
+        console.log('num written is',num_written);
+         if (num_written){
             nums+=1;
             num_written=false;
         }
          
-        if (equal_pressed) {
-            clear();
-            first_num=answer.toString();
+        if (equal_pressed ) {first_num=answer.toString();
+           operation=btn.id;
+            sign=btn.innerText;
+            main_display.innerText='';
             console.log(first_num,'is the  first num');
             equation=first_num;
             equal_pressed=false;
@@ -173,34 +194,43 @@ sign_btn.forEach(btn => {
         }
         console.log(nums,"is the number of numbers?");
         if (nums>=2){
+            
+           
             second_num=equation.slice(first_num.toString().length+1,);
             console.log('the equation is',first_num,sign,second_num);
             answer= operate(parseFloat(first_num),parseFloat(second_num),operation);
             equation=answer;
             nums=1;
+            sign='';
             first_num=answer;
             console.log(first_num,"first",first_num.length);
-        }
+        } console.log('the sign is ',sign,'and the number is ',nums);
         if (nums==1) {
-            if (!first_num){
-            first_num=equation;    }}
+           
+           if (!sign){
+            first_num=equation;  
+            operation=btn.id;
+        sign=btn.innerText ;
+            } 
+         }
        
-        console.log('the first num is ',typeof(first_num))
-        operation=btn.id;
-        sign=btn.innerText
-        equation+=sign; 
+       
+        
+        equation+=btn.innerText; 
          if (first_num=='Infinity') {
             clear()
         } 
-        else {display.innerText=equation;}
-        //console.log(first_num);
+        else {
+            display.innerText=reverse_str(equation.slice(0,first_num.length+1).toString());}
+       
     })
 })
 equal_btn.addEventListener('click',() => {
-    equalPressed();
+    equalPresed();
 })
 
 function clear(){
+    console.log('cleaer called!')
     nums=0;
     first_num='';
     second_num='';
@@ -209,30 +239,56 @@ function clear(){
     operation='';
     sign='';
     equation='';
+    answer='';
+    num_written=false;
+    equal_pressed=false;
+    console.log(num_written);
 }
 
-function equalPressed(){
+function equalPresed(){
     equal_pressed=true;
     console.log('the equation is ',equation);
    second_num=equation.slice(first_num.toString().length+1,);
-   console.log(first_num,'and second num is',second_num,'euqal pressed');
+   console.log(first_num,'and second num is',second_num,'euqal pressed','operatin is',operation);
   
   answer= operate(parseFloat(first_num),parseFloat(second_num),operation);
   console.log('the answer is ',answer);
-  
+  console.log(typeof(answer));
   if (answer===Infinity){
     console.log('wtf')
-    main_display.innerText='DUMBASS';
+    main_display.innerText=reverse_str('DUMBASS');
   }
-   else {main_display.innerText=answer.toString();
+  
+  else if (isNaN(answer)){
+    main_display.innerText=reverse_str('flmm');
+  }
+   else {display.innerText=reverse_str(equation);
+    main_display.innerText=reverse_str(answer.toString());
        console.log(main_display.innerText,'is the real answer');}
+       
 }
 
 function deleteNum(){
-    if (display.innerText.slice(-1)==="."){
+    if (main_display.innerText.slice(-1)==="."){
         decimal=true;
         decimal_btn.disabled=false;
      };
-     display.innerText=display.innerText.slice( 0,-1);
-     equation=display.innerText;
+     main_display.innerText=main_display.innerText.slice( 0,-1);
+     console.log('equation was ',equation);
+     equation=equation.slice( 0,-1);console.log('equation now is ',equation);
+
+} 
+function check_display_length(){
+  
+    if (display.innerText.length>15){
+        overflow=true;
+    }
+    
 }
+
+function reverse_str(str){
+    reversed_dis= str.split('').reverse().join("");
+    console.log(rev_dis,'reversed?')
+    return reversed_dis;
+}
+
