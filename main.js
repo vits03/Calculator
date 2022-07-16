@@ -220,11 +220,16 @@ sign_btn.forEach(btn => {
          if (first_num=='Infinity') {
             clear()
         } 
+        else if (nums>=1){
+            display.innerText=reverse_str(equation.slice(0,first_num.toString().length+1).toString());
+            main_display.innerText=reverse_str(equation.slice(first_num.toString().length+1,).toString());
+        }
         else {
-            display.innerText=reverse_str(equation.slice(0,first_num.length+1).toString());}
-       
-    })
-})
+            main_display.innerText+=equation;
+        }
+          
+    })})
+
 equal_btn.addEventListener('click',() => {
     equalPresed();
 })
