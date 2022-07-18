@@ -82,4 +82,6 @@ button.ops-btn,button.accent-clr{
     height: 60%;
     width: 100%;
 }
-
+#backspace {
+    font-size: 1.5rem;
+}

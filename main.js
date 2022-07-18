@@ -70,7 +70,13 @@ btn.forEach(element => {
                 if (decimal){
                     equation+=element.innerText;  console.log(equation,display.innerText);
                     console.log(equation.split(sign)[1])
-                    main_display.innerText=equation.split(sign)[0];
+                    if (sign){
+                       main_display.innerText=reverse_str(equation.slice(first_num.toString().length+1,));
+                    }
+                    else {
+                        main_display.innerText=reverse_str(equation);
+                    }
+                    
                     num_written=true;
                     decimal=false
                     element.disabled='true';
@@ -122,8 +128,8 @@ document.addEventListener('keydown',(e) => {
     if ((e.keyCode >=47 && e.keyCode<58) ||(e.keyCode >=95 && e.keyCode<106)){
         
         equation+=e.key;
-        main_display.innerText=equation;
-        rev_dis=equation;
+        main_display.innerText=reverse_str(equation);
+        
        
         
         
@@ -134,7 +140,7 @@ document.addEventListener('keydown',(e) => {
     }
     if (e.key==="." && decimal){
         equation+=e.key;
-        display.innerText=equation;
+        main_display.innerText=reverse_str(equation);
         decimal=false;
         decimal_btn.disabled=true;
     }
@@ -151,7 +157,7 @@ pi_btn.addEventListener('click',()=>{
         equal_pressed=false;
     }
     equation+=Math.PI;  
-    display.innerText=equation;
+    display.innerText=reverse_str(equation);
     num_written=true;
 })
 
@@ -162,7 +168,7 @@ e_btn.addEventListener('click',()=>{
         equal_pressed=false;
     }
     equation+=Math.E;  
-    display.innerText=equation;
+    display.innerText=reverse_str(equation);
     num_written=true;
 
     
@@ -247,6 +253,8 @@ function clear(){
     answer='';
     num_written=false;
     equal_pressed=false;
+    decimal=false;
+    decimal_btn.disabled=false;
     console.log(num_written);
 }
 
@@ -274,13 +282,20 @@ function equalPresed(){
 }
 
 function deleteNum(){
-    if (main_display.innerText.slice(-1)==="."){
+    if (equation.toString().slice(-1)==="."){
         decimal=true;
         decimal_btn.disabled=false;
-     };
-     main_display.innerText=main_display.innerText.slice( 0,-1);
+     }; 
+     equation=equation.slice(0,-1);
+    if (sign){
+        main_display.innerText=reverse_str(equation.slice(first_num.toString().length+1,))
+    }
+    else {
+        main_display.innerText=reverse_str(equation)
+    }
+     
      console.log('equation was ',equation);
-     equation=equation.slice( 0,-1);console.log('equation now is ',equation);
+    console.log('equation now is ',equation);
 
 } 
 function check_display_length(){
